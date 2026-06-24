@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Portfolio Reviewer — AI-Powered Portfolio Audit</title>
+  <meta name="description" content="Upload a GitHub username and get an instant AI-powered portfolio review. Find missing docs, get improvement tips, and generate professional READMEs." />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>" />
+</head>
+<body>
+
+<!-- ═══ Theme Toggle ═══ -->
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+  🌙
+</button>
+
+<!-- ═══ README Modal ═══ -->
+<div class="modal-overlay" id="readme-modal" role="dialog" aria-modal="true" aria-labelledby="modal-repo-name">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        📝 README for <span id="modal-repo-name">repo</span>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-copy" id="copy-btn">📋 Copy</button>
+        <button class="btn-close" id="close-modal" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="readme-generating" id="readme-generating">
+        <div class="loading-spinner"></div>
+        <span>Generating README…</span>
+      </div>
+      <pre class="readme-content" id="readme-content" style="display:none"></pre>
+    </div>
+    <div class="modal-custom">
+      <label class="field-label" for="custom-instructions">✏️ Custom instructions (optional)</label>
+      <textarea id="custom-instructions" placeholder="E.g. 'Add a demo GIF section', 'Include Docker setup steps', 'Make it more beginner-friendly'…"></textarea>
+      <button class="btn-regen" id="regen-btn">🔄 Regenerate README</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Toast ═══ -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ═══ Main Content ═══ -->
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⭐</div>
+      <span class="logo-text">GitHub Portfolio Reviewer</span>
+    </div>
+    <p class="tagline">AI-powered audits · Documentation gaps · README generation · Next-project ideas</p>
+  </header>
+
+  <!-- Search / Scan Box -->
+  <section class="search-section" aria-label="Portfolio scanner">
+    <div class="search-card">
+      <h2>🔍 Enter a GitHub username to begin your audit</h2>
+
+      <div class="input-group">
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            id="username-input"
+            placeholder="e.g. torvalds, gvanrossum, you…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="GitHub username"
+          />
+        </div>
+        <button class="btn-scan" id="scan-btn" aria-label="Scan portfolio">
+          <span>🚀</span> Scan Portfolio
+        </button>
+      </div>
+
+      <div class="advanced-toggle">
+        <button class="toggle-link" id="advanced-toggle" aria-expanded="false">
+          ⚙️ Advanced options <span class="toggle-icon">▼</span>
+        </button>
+      </div>
+
+      <div class="advanced-options" id="advanced-options">
+        <div style="margin-bottom:14px">
+          <label class="field-label" for="github-token-input">GitHub Token (optional)</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input
+              type="password"
+              id="github-token-input"
+              placeholder="ghp_xxxxxxx — raises API rate limits"
+              autocomplete="off"
+            />
+          </div>
+          <p class="field-hint">Without a token you're limited to 60 GitHub API requests/hour.</p>
+        </div>
+        <div>
+          <label class="field-label" for="gemini-key-input">Gemini API Key (optional)</label>
+          <div class="input-wrap">
+            <span class="input-icon">🤖</span>
+            <input
+              type="password"
+              id="gemini-key-input"
+              placeholder="AIza… — enables AI-powered analysis"
+              autocomplete="off"
+            />
+          </div>
+          <p class="field-hint">Without a key the engine uses smart heuristics. Get a free key at <a href="https://aistudio.google.com/" target="_blank" rel="noopener" style="color:var(--accent-2)">Google AI Studio</a>.</p>
+        </div>
+      </div>
+
+      <div class="error-banner" id="error-banner" role="alert">
+        <span>⚠️</span> <span id="error-msg"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading State -->
+  <section id="loading-section" aria-live="polite" aria-label="Loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Auditing GitHub portfolio…</div>
+    <div class="loading-steps">
+      <div class="step-item" id="step-1">
+        <div class="step-dot"></div> Fetching profile
+      </div>
+      <div class="step-item" id="step-2">
+        <div class="step-dot"></div> Scanning repositories
+      </div>
+      <div class="step-item" id="step-3">
+        <div class="step-dot"></div> Running analysis
+      </div>
+      <div class="step-item" id="step-4">
+        <div class="step-dot"></div> Building report
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Results ═══ -->
+  <section id="results-section" aria-label="Scan results">
+
+    <!-- Profile Header Card -->
+    <div class="profile-header">
+      <img class="avatar-img" id="profile-avatar" src="" alt="Avatar" />
+      <div class="profile-info">
+        <div class="profile-name" id="profile-name">—</div>
+        <div class="profile-username" id="profile-username">@username</div>
+        <div class="profile-bio" id="profile-bio"></div>
+        <div class="profile-stats">
+          <div class="stat-pill">📦 <span id="stat-repos">0</span> Repos</div>
+          <div class="stat-pill">👥 <span id="stat-followers">0</span> Followers</div>
+          <div class="stat-pill">➡️ <span id="stat-following">0</span> Following</div>
+        </div>
+        <div class="ai-badge" id="ai-label" style="display:none">
+          🤖 Powered by Gemini AI
+        </div>
+      </div>
+
+      <!-- Score Ring -->
+      <div class="score-block">
+        <div class="score-ring" role="img" aria-label="Portfolio score">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="45" />
+            <circle class="ring-fg" id="ring-fg" cx="50" cy="50" r="45"
+              stroke-dasharray="283" stroke-dashoffset="283" />
+          </svg>
+          <div class="score-number">
+            <span class="score-value" id="score-value">0</span>
+            <span class="score-label-small">/ 100</span>
+          </div>
+        </div>
+        <span class="score-badge" id="score-badge">Score</span>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-card">
+      <div class="section-title">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15);color:#7c3aed">📊</div>
+        Portfolio Summary
+      </div>
+      <p class="summary-text" id="summary-text"></p>
+    </div>
+
+    <!-- Improvements + Repos (2-col) -->
+    <div class="two-col">
+
+      <!-- Improvements -->
+      <div class="panel">
+        <div class="section-title">
+          <div class="section-icon" style="background:rgba(239,68,68,0.12);color:#ef4444">⚡</div>
+          Improvements Needed
+        </div>
+        <div class="improvement-list" id="improvement-list"></div>
+      </div>
+
+      <!-- Repo Audit summary (static metrics) -->
+      <div class="panel" id="metrics-panel">
+        <div class="section-title">
+          <div class="section-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4">📈</div>
+          Audit Metrics
+        </div>
+        <div id="metrics-content">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Repositories -->
+    <div class="repos-section">
+      <div class="section-title">
+        <div class="section-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b">📂</div>
+        Repository Breakdown
+        <span style="font-size:13px;color:var(--text-muted);font-weight:400;margin-left:auto">Click "Generate README" on any project</span>
+      </div>
+      <div class="repo-grid" id="repo-grid"></div>
+    </div>
+
+    <!-- Recommended Projects -->
+    <div class="projects-section">
+      <div class="section-title">
+        <div class="section-icon" style="background:rgba(34,197,94,0.12);color:#22c55e">💡</div>
+        Recommended Next Projects
+      </div>
+      <div class="project-cards" id="project-cards"></div>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- History -->
+  <section id="history-section" style="display:none">
+    <div class="section-title" style="margin-bottom:20px;position:relative;z-index:1">
+      <div class="section-icon" style="background:rgba(124,58,237,0.12);color:#7c3aed">🕐</div>
+      Recently Scanned Profiles
+    </div>
+    <div class="history-grid" id="history-grid"></div>
+  </section>
+
+</div><!-- /container -->
+
+<script src="/js/app.js"></script>
+
+<script>
+// ── Inline: render audit metrics panel ──
+// Hook into the displayResults pipeline to also populate metrics panel
+const _origDisplay = window.displayResults;
+
+function renderMetrics(repos) {
+  const metricsContent = document.getElementById('metrics-content');
+  if (!repos || !repos.length) {
+    metricsContent.innerHTML = '<div class="empty-state">No repository data.</div>';
+    return;
+  }
+
+  const total = repos.length;
+  const pct = (key) => Math.round((repos.filter(r => r[key]).length / total) * 100);
+
+  const metrics = [
+    { label: 'Has README',      value: pct('has_readme'),      icon: '📄', color: '#22c55e' },
+    { label: 'Has License',     value: pct('has_license'),     icon: '⚖️',  color: '#06b6d4' },
+    { label: 'Has .gitignore',  value: pct('has_gitignore'),   icon: '🔒', color: '#7c3aed' },
+    { label: 'Has Tests',       value: pct('has_tests'),       icon: '🧪', color: '#f59e0b' },
+    { label: 'Has CI/CD',       value: pct('has_ci'),          icon: '⚙️',  color: '#3b82f6' },
+    { label: 'Has Docker',      value: pct('has_docker'),      icon: '🐳', color: '#06b6d4' },
+  ];
+
+  metricsContent.innerHTML = metrics.map(m => `
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:13px;color:var(--text-secondary)">${m.icon} ${m.label}</span>
+        <span style="font-size:13px;font-weight:700;color:${m.color}">${m.value}%</span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:0%;background:${m.color};border-radius:3px;transition:width 1.2s cubic-bezier(0.34,1.56,0.64,1)"
+             data-target="${m.value}"></div>
+      </div>
+    </div>
+  `).join('');
+
+  // Animate bars after render
+  setTimeout(() => {
+    metricsContent.querySelectorAll('[data-target]').forEach(bar => {
+      bar.style.width = bar.dataset.target + '%';
+    });
+  }, 200);
+}
+
+// Monkey-patch displayResults to also call renderMetrics
+const __orig = displayResults;
+window.displayResults = function(data) {
+  __orig(data);
+  renderMetrics(data.repositories || []);
+};
+</script>
+
+</body>
+</html>
