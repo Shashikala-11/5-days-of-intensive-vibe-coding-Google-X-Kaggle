@@ -1,285 +1,63 @@
-<div align="center">
+# 5 Days of Intensive Vibe Coding — Google × Kaggle 🚀
 
-# 🚀 5-Day Intensive Vibe Coding with Google
+My learning journey through Google and Kaggle's **5-Day AI Agents: Intensive Vibe Coding Course** — building production-ready AI agents using natural language workflows, Gemini, and modern agentic tooling.
 
-### Building Production-Ready AI Applications with Google AI Studio, Gemini & Antigravity
+## 📖 About the Course
 
-[![Google AI](https://img.shields.io/badge/Google-AI-blue?style=for-the-badge&logo=google)](https://ai.google.dev/)
-[![Gemini](https://img.shields.io/badge/Gemini-AI-8E75B2?style=for-the-badge)](https://gemini.google.com/)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python)](https://python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+A free, five-day online intensive from Google's AI researchers and engineers, focused on **vibe coding** — where natural language becomes the primary interface for designing, building, and shipping autonomous AI agents. The course moves from foundational concepts to production deployment, capped with a hands-on capstone project.
 
----
+## 🗓️ Daily Progress
 
-### 📅 5 Days • 🤖 AI Agents • ☁️ Cloud Deployment • 🚀 Production Ready
+| Day | Topic | Status |
+|-----|-------|--------|
+| Day 1 | Intro to Agents & Vibe Coding — from chatbots to autonomous agents | ✅ Complete |
+| Day 2 | Agent Tools & Interoperability — APIs, code execution, agent-to-agent communication | ✅ Complete |
+| Day 3 | Context Engineering — sessions, skills & memory | ✅ Complete |
+| Day 4 | Quality & Security — evals, guardrails, ambient expense agent | ✅ Complete |
+| Day 5 | Production Deployment & Capstone | 🔄 In Progress |
 
-</div>
-
----
-
-# 📖 About
-
-This repository documents my journey through Google's **5-Day Intensive Vibe Coding Course**, where I explored modern AI application development using Google's ecosystem.
-
-The course focuses on moving beyond notebooks and building **real-world AI-powered applications** with:
-
-- 🤖 Gemini Models
-- ⚡ Google AI Studio
-- ☁️ Cloud Run
-- 🧠 Prompt Engineering
-- 🔥 Agentic AI
-- 🚀 Production Deployment
-
-Each day contains:
-- Notes
-- Code Labs
-- Mini Projects
-- Resources
-- Learnings
-- Blog
-
----
-
-# 🗂 Repository Structure
+## 📂 Repository Structure
 
 ```
-5-Day-Intensive-Vibe-Coding/
-│
-├── Day-01/
-│   ├── Notes/
-│   ├── Code/
-│   ├── Project/
-│   ├── Images/
-│   └── README.md
-│
-├── Day-02/
-│   ├── Notes/
-│   ├── Code/
-│   ├── Project/
-│   └── README.md
-│
-├── Day-03/
-│
-├── Day-04/
-│
-├── Day-05/
-│
-├── Assets/
-│
-├── Blogs/
-│
+.
+├── day01/                  # Agent fundamentals, AI Studio, Gemini API, first AI web app
+├── day02/                  # Tool integration, external APIs, multi-agent communication
+├── day03/                  # Context engineering, memory, skills
+├── day04/
+│   └── ambient-expense-agent/   # Mini-project: an ambient agent for expense tracking
+├── day05/                  # Production deployment & capstone (in progress)
 └── README.md
 ```
 
----
+## 🛠️ Tech Stack
 
-# 📅 Course Progress
+- **Language:** Python
+- **AI:** Gemini API, Google AI Studio, Vertex AI
+- **Frameworks:** Flask / FastAPI
+- **Deployment:** Docker, Cloud Run
+- **Tools:** Google Antigravity IDE/CLI, Model Context Protocol (MCP)
 
-| Day | Topic | Status |
-|------|-------|--------|
-| ✅ Day 1 | Google Antigravity Fundamentals | Completed |
-| ⏳ Day 2 | Coming Soon | Pending |
-| ⏳ Day 3 | Coming Soon | Pending |
-| ⏳ Day 4 | Coming Soon | Pending |
-| ⏳ Day 5 | Coming Soon | Pending |
-
----
-
-# 📚 Daily Learnings
-
-## 🌟 Day 1
-
-### Topics Covered
-
-- Introduction to Google Antigravity
-- Google AI Studio
-- Gemini API
-- Prompt Engineering
-- Cloud Run Deployment
-- Building AI Web Apps
-
-### Hands-on
-
-- ✅ AI Studio
-- ✅ Gemini API
-- ✅ Cloud Run
-- ✅ First AI Web App
-
-### Deliverables
-
-- Notes
-- Code
-- Blog
-- Mini Project
-
----
-
-## 🌟 Day 2
-
-> Coming Soon
-
----
-
-## 🌟 Day 3
-
-> Coming Soon
-
----
-
-## 🌟 Day 4
-
-> Coming Soon
-
----
-
-## 🌟 Day 5
-
-> Coming Soon
-
----
-
-# 🛠 Tech Stack
-
-### Languages
-
-- Python
-
-### AI
-
-- Google Gemini
-- Google AI Studio
-- Vertex AI
-
-### Backend
-
-- Flask
-- FastAPI
-
-### Deployment
-
-- Cloud Run
-
-### Tools
-
-- VS Code
-- Git
-- GitHub
-- Docker
-
----
-
-# 🎯 Learning Goals
-
-- Build AI-powered applications
-- Learn Agentic AI workflows
-- Deploy production-ready systems
-- Understand Google's AI ecosystem
-- Explore prompt engineering
-- Work with Gemini APIs
-
----
-
-# 📂 Projects
-
-| Day | Project |
-|------|----------|
-| Day 1 | AI Web Application |
-| Day 2 | Coming Soon |
-| Day 3 | Coming Soon |
-| Day 4 | Coming Soon |
-| Day 5 | Coming Soon |
-
----
-
-# 📸 Screenshots
-
-```
-Assets/
-    screenshots/
-```
-
----
-
-# 📝 Blogs
-
-I write detailed blogs after completing each day's learning.
-
-| Day | Blog |
-|------|------|
-| Day 1 | Coming Soon |
-| Day 2 | Coming Soon |
-| Day 3 | Coming Soon |
-| Day 4 | Coming Soon |
-| Day 5 | Coming Soon |
-
----
-
-# 📚 Resources
-
-- Google AI Studio
-- Gemini API Documentation
-- Cloud Run Documentation
-- Google Codelabs
-
----
-
-# 🚀 How to Run
-
-Clone the repository
+## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/yourusername/5-Day-Intensive-Vibe-Coding.git
-```
-
-Navigate to the project
-
-```bash
-cd 5-Day-Intensive-Vibe-Coding
-```
-
-Install dependencies
-
-```bash
+git clone https://github.com/Shashikala-11/5-days-of-intensive-vibe-coding-Google-X-Kaggle.git
+cd 5-days-of-intensive-vibe-coding-Google-X-Kaggle
 pip install -r requirements.txt
 ```
 
-Run the application
+Each `dayXX/` folder contains its own notes, code labs, and mini-project — check the folder's local README for setup and run instructions.
 
-```bash
-python app.py
-```
+## 🎯 Goals
 
----
+- Learn agentic AI workflows using natural language as the primary interface
+- Practice prompt engineering and context management
+- Build and deploy real AI agents to production (Cloud Run)
+- Complete the course capstone project
 
-# 🌱 Future Improvements
+## 🙏 Credits
 
-- Add advanced AI Agents
-- Integrate MCP
-- Multi-Agent Workflows
-- Production Monitoring
-- Authentication
-- CI/CD Pipeline
+Course created by Google's AI research team and Kaggle. Personal learning materials — not official course content.
 
----
+## 📜 License
 
-# 🤝 Connect With Me
-
-- LinkedIn
-- GitHub
-- Portfolio
-
----
-
-# ⭐ Support
-
-If you found this repository useful, consider giving it a ⭐ to support my learning journey.
-
----
-
-<div align="center">
-
-### 🚀 Learning in Public • Building with AI • Shipping Projects
-
-**Made with ❤️ during Google's 5-Day Intensive Vibe Coding Course**
-
-</div>
+This repository documents personal learning notes and projects. Course materials belong to Google and Kaggle.
